@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsComparableColumnInAttributesTable extends Migration
+class CreateCacheTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddIsComparableColumnInAttributesTable extends Migration
      */
     public function up()
     {
-        Schema::table('attributes', function (Blueprint $table) {
-            $table->boolean('is_comparable')->default(0);
+        Schema::create('cache', function (Blueprint $table) {
+            $table->string('key')->unique();
+            $table->mediumText('value');
+            $table->integer('expiration');
         });
     }
 
@@ -25,8 +27,6 @@ class AddIsComparableColumnInAttributesTable extends Migration
      */
     public function down()
     {
-        Schema::table('attributes', function (Blueprint $table) {
-            $table->dropColumn('is_comparable');
-        });
+        Schema::dropIfExists('cache');
     }
 }

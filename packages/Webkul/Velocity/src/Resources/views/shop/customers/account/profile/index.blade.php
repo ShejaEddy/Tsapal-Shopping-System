@@ -44,6 +44,8 @@
                 {{ __('shop::app.customer.account.profile.index.edit') }}
             </a>
         </span>
+
+        <div class="horizontal-rule"></div>
     </div>
 
     {!! view_render_event('bagisto.shop.customers.account.profile.view.before', ['customer' => $customer]) !!}

@@ -56,7 +56,8 @@ class CartController extends Controller
         CartRepository $cartRepository,
         CartItemRepository $cartItemRepository,
         WishlistRepository $wishlistRepository
-    ) {
+    )
+    {
         $this->guard = request()->has('token') ? 'api' : 'customer';
 
         auth()->setDefaultDriver($this->guard);
@@ -92,8 +93,7 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function store($id)
@@ -101,7 +101,7 @@ class CartController extends Controller
         if (request()->get('is_buy_now')) {
             Event::dispatch('shop.item.buy-now', $id);
         }
-
+        
         Event::dispatch('checkout.cart.item.add.before', $id);
 
         $result = Cart::addProduct($id, request()->except('_token'));
@@ -110,13 +110,12 @@ class CartController extends Controller
             $message = session()->get('warning') ?? session()->get('error');
 
             return response()->json([
-                'error' => session()->get('warning')
-            ], 400);
+                    'error' => session()->get('warning')
+                ], 400);
         }
 
-        if ($customer = auth($this->guard)->user()) {
+        if ($customer = auth($this->guard)->user())
             $this->wishlistRepository->deleteWhere(['product_id' => $id, 'customer_id' => $customer->id]);
-        }
 
         Event::dispatch('checkout.cart.item.add.after', $result);
 
@@ -125,9 +124,9 @@ class CartController extends Controller
         $cart = Cart::getCart();
 
         return response()->json([
-            'message' => __('shop::app.checkout.cart.item.success'),
-            'data'    => $cart ? new CartResource($cart) : null
-        ]);
+                'message' => 'Product added to cart successfully.',
+                'data' => $cart ? new CartResource($cart) : null
+            ]);
     }
 
     /**
@@ -137,11 +136,11 @@ class CartController extends Controller
      */
     public function update()
     {
-        foreach (request()->get('qty') as $qty) {
+        foreach (request()->get('qty') as$qty) {
             if ($qty <= 0) {
                 return response()->json([
-                    'message' => trans('shop::app.checkout.cart.quantity.illegal')
-                ], 401);
+                        'message' => trans('shop::app.checkout.cart.quantity.illegal')
+                    ], 401);
             }
         }
 
@@ -160,9 +159,9 @@ class CartController extends Controller
         $cart = Cart::getCart();
 
         return response()->json([
-            'message' => __('shop::app.checkout.cart.quantity.success'),
-            'data'    => $cart ? new CartResource($cart) : null
-        ]);
+                'message' => 'Cart updated successfully.',
+                'data' => $cart ? new CartResource($cart) : null
+            ]);
     }
 
     /**
@@ -181,16 +180,15 @@ class CartController extends Controller
         $cart = Cart::getCart();
 
         return response()->json([
-            'message' => __('shop::app.checkout.cart.item.success-remove'),
-            'data'    => $cart ? new CartResource($cart) : null
-        ]);
+                'message' => 'Cart removed successfully.',
+                'data' => $cart ? new CartResource($cart) : null
+            ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroyItem($id)
@@ -206,9 +204,9 @@ class CartController extends Controller
         $cart = Cart::getCart();
 
         return response()->json([
-            'message' => __('shop::app.checkout.cart.item.success-remove'),
-            'data'    => $cart ? new CartResource($cart) : null
-        ]);
+                'message' => 'Cart removed successfully.',
+                'data' => $cart ? new CartResource($cart) : null
+            ]);
     }
 
     /**
@@ -230,8 +228,8 @@ class CartController extends Controller
         $cart = Cart::getCart();
 
         return response()->json([
-            'message' => __('shop::app.checkout.cart.move-to-wishlist-success'),
-            'data'    => $cart ? new CartResource($cart) : null
-        ]);
+                'message' => 'Cart item moved to wishlist successfully.',
+                'data' => $cart ? new CartResource($cart) : null
+            ]);
     }
 }

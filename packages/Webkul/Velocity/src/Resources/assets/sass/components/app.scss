@@ -255,8 +255,6 @@
     }
 
     .card-body {
-        cursor: default;
-
         > div:last-child {
             margin-top: 10px;
         }
@@ -276,6 +274,17 @@
         }
     }
 
+    .wishlist-icon {
+        height: 38px;
+        display: table;
+        text-align: right;
+
+        > i {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+
     .add-to-cart-btn {
         width: 100%;
         position: relative;
@@ -289,24 +298,11 @@
             }
         }
 
-        ~ a {
+        ~ .wishlist-icon {
             right: 0;
             margin: 0;
             padding: 0;
-            height: 38px;
-            display: table;
-            cursor: pointer;
-            text-align: right;
             position: absolute;
-
-            &.compare-icon {
-                right: 27px;
-            }
-
-            > i {
-                display: table-cell;
-                vertical-align: middle;
-            }
         }
     }
 }
@@ -712,7 +708,9 @@
 
         .customer-sidebar {
             border-right: 1px solid $border-general;
+        }
 
+        .customer-sidebar {
             .account-details {
                 text-align: center;
                 padding: 25px 20px;
@@ -776,10 +774,6 @@
 
                             &.downloadables::before {
                                 content: "\e926";
-                            }
-
-                            &.compare::before {
-                                content: "\e93b";
                             }
                         }
                     }
@@ -1500,7 +1494,7 @@
     span:nth-child(1),
     .special-price,
     .price-from > span:not(:nth-child(2)) {
-        font-size: 20px !important;
+        font-size: 20px;
         font-weight: 600;
     }
 
@@ -2202,16 +2196,6 @@
             @extend .small-padding;
         }
     }
-
-    .VueCarousel-slide {
-        cursor: default;
-    }
-
-    #new-products-carousel {
-        .compare-icon {
-            display: none;
-        }
-    }
 }
 
 .vue-slider {
@@ -2220,57 +2204,4 @@
 
 .profile-update-form {
     width: 800px;
-}
-
-
-.compare-products {
-    .col,
-    .col-2 {
-        padding-left: 0;
-        max-width: 20%;
-    }
-
-    .image-wrapper {
-        width: 100%;
-    }
-
-    .stars {
-        i {
-            font-size: 16px;
-        }
-    }
-
-    .action {
-        position: relative;
-
-        .close-btn {
-            right: 0;
-            top: 6px;
-            position: absolute;
-            display: inline-block;
-
-            &:hover {
-                font-weight: 600;
-            }
-        }
-
-        .compare-icon {
-            display: none;
-        }
-    }
-
-    .product-price {
-        span {
-            font-size: 24px !important
-        }
-    }
-
-    .material-icons {
-        &.cross {
-            top: 5px;
-            right: 20px;
-            cursor: pointer;
-            position: absolute;
-        }
-    }
 }
